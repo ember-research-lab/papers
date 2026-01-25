@@ -10,6 +10,9 @@ eigendirection_benevolence*.*
 # Spectral Unity Framework
 spectral_unity*.*
 
+# Thinking with Claude (full version - private)
+thinking_with_claude_full.*
+
 # LaTeX auxiliary files
 *.aux
 *.log
