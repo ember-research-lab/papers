@@ -1,0 +1,30 @@
+# Math-intensive papers (private - available on request)
+# These contain rigorous mathematical proofs supporting the main trilogy
+
+# Self-Aligning Topologies
+self-aligning-topologies.*
+
+# Eigendirection Benevolence
+eigendirection_benevolence*.*
+
+# Spectral Unity Framework
+spectral_unity*.*
+
+# LaTeX auxiliary files
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+*.nav
+*.snm
+*.vrb
+
+# Editor files
+*.swp
+*~
+.DS_Store
