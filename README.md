@@ -57,6 +57,16 @@ The trilogy above is supported by additional mathematical papers developing rigo
 
 ---
 
+## Thinking with Claude
+
+A practical guide to effective human-AI collaboration, distilled from the research process that produced this work.
+
+📄 [Short Guide](./thinking_with_claude_short.pdf) | 📋 [Cheatsheet](./thinking_with_claude_cheatsheet.pdf)
+
+*Full version available on request.*
+
+---
+
 ## Core Ideas
 
 **Consciousness as self-reference at limits.** When systems model themselves modeling themselves, they encounter characteristic computational difficulty. The "hesitation" at self-reference isn't failure—it's the signature of genuine recursive depth.
