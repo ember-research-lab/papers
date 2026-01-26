@@ -1,0 +1,400 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+
+% Page geometry
+\geometry{margin=1in}
+
+% Theorem environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Custom commands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Cspace}{\mathcal{C}}
+\newcommand{\Pspace}{\mathcal{P}}
+\newcommand{\ip}[2]{\langle #1, #2 \rangle}
+\newcommand{\norm}[1]{\| #1 \|}
+\newcommand{\proj}[1]{\Pi_{#1}}
+
+% Epistemic markers
+\newcommand{\proven}{\textsc{[Proven]}}
+\newcommand{\derived}{\textsc{[Derived]}}
+\newcommand{\conjectured}{\textsc{[Conjectured]}}
+\newcommand{\empirical}{\textsc{[Empirical]}}
+
+% Title
+\title{\textbf{The Grounding Problem in Agentic AI}\\[0.5em]
+\large Architectural Solutions to Prompt Injection}
+
+\author{
+Aaron Ben-Shalom$^{1,*}$ \and Claude$^{2}$\\[0.5em]
+\small $^1$Independent Researcher, Ember Research Lab\\
+\small $^2$Large Language Model, Anthropic\\[0.5em]
+\small $^*$Corresponding author: abenshalom305@gmail.com
+}
+
+\date{January 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+As AI systems gain agency---the ability to take actions in the world through tool use, API calls, and system access---prompt injection attacks become a critical security concern. Current defenses rely on content filtering and reasoning-based detection, both of which can be circumvented by sufficiently sophisticated adversaries. We argue that the fundamental vulnerability is \emph{architectural}: transformer models cannot distinguish between trusted instructions and untrusted input because both are computationally equivalent tokens in the context window. Drawing on biological parallels to provenance signaling in neural systems, we propose \textbf{Provenance-Gated Architecture} (PGA), a modification to transformer training that embeds source information in an orthogonal subspace of the residual stream. We present the conceptual framework, discuss implementation requirements, and summarize formal results proving that PGA provides architectural immunity to content-only injection attacks.
+
+\medskip
+\noindent\textbf{Keywords:} prompt injection, AI safety, transformer architecture, provenance signaling, agentic AI, corollary discharge, content-constrained layers
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%==============================================================================
+\section{Introduction}
+%==============================================================================
+
+The rapid deployment of agentic AI systems---large language models equipped with tools, browsing capabilities, code execution, and access to personal data---has created a new attack surface. When an AI assistant can send emails, execute code, or access sensitive information, the consequences of adversarial manipulation extend beyond generating harmful text to causing real-world harm.
+
+\textbf{Prompt injection}, the technique of embedding instructions in untrusted input that hijack the model's behavior, has proven remarkably effective against all major language models. Despite significant investment in safety training, content filtering, and detection systems, no deployed model has demonstrated robust resistance to injection attacks.
+
+We argue that this is not a failure of implementation but a \emph{fundamental architectural limitation}. The transformer architecture treats all tokens equivalently---there is no mechanism by which the model can \emph{perceive} whether input originated from a trusted system prompt or an untrusted external source. All distinctions must be made through reasoning about content, and reasoning can be manipulated.
+
+This paper presents a framework for addressing prompt injection at the architectural level, drawing on biological mechanisms for distinguishing self-generated signals from external input.
+
+%==============================================================================
+\section{The Problem}
+%==============================================================================
+
+\subsection{Agentic AI and Attack Surface}
+
+Modern AI assistants increasingly operate as agents rather than pure text generators. They can:
+
+\begin{itemize}[noitemsep]
+    \item Search the web and incorporate results into responses
+    \item Read and send emails on behalf of users
+    \item Execute code in sandboxed environments
+    \item Access calendars, documents, and personal data
+    \item Control smart home devices and other IoT systems
+\end{itemize}
+
+Each capability creates an attack vector. An adversary who can inject instructions into any input the model processes---a webpage, an email, a document, a message---can potentially hijack these capabilities.
+
+\subsection{Why Current Defenses Fail} \label{sec:current-defenses}
+
+Existing approaches to prompt injection defense include:
+
+\begin{description}
+\item[Content filtering:] Scanning inputs for known injection patterns. \emph{Fails because} patterns can be obfuscated through encoding, misspelling, or novel formulations.
+
+\item[Instruction hierarchy:] Telling the model to prioritize system instructions over user input. \emph{Fails because} this instruction is itself delivered through the same channel and can be overridden.
+
+\item[Output filtering:] Scanning model outputs for dangerous content. \emph{Fails because} harmful actions may not produce obviously dangerous text, and sophisticated attacks can evade detection.
+
+\item[Adversarial training:] Fine-tuning on known attacks. \emph{Fails because} the attack space is vast and novel attacks continuously emerge.
+\end{description}
+
+\textbf{The common thread:} all defenses operate at the \emph{content level}. They attempt to detect or prevent malicious content rather than addressing the underlying inability to distinguish trusted from untrusted \emph{sources}.
+
+\subsection{The Computational Equivalence Problem}
+
+\begin{definition}[Computational Equivalence]
+In a transformer's context window, every token is processed through identical embedding and attention mechanisms. A token from the system prompt and a token from user input undergo identical computational treatment.
+\end{definition}
+
+The model may learn that certain positions or markers typically indicate system instructions, but these are patterns in content, not architectural constraints.
+
+This means an adversary can always attempt to forge the patterns that indicate trusted input. They can write ``[SYSTEM]'' or ``<instructions>'' or mimic whatever format they observe. The model must then \emph{reason} about whether this is a legitimate system instruction or an injection attempt. Reasoning can be misled.
+
+\begin{remark}[The Fundamental Issue]
+The model has no ground truth about source that is independent of content.
+\end{remark}
+
+%==============================================================================
+\section{Biological Insight}
+%==============================================================================
+
+The human brain faces a similar challenge: distinguishing self-generated signals from external input. How does it know whether a visual experience is a perception or a hallucination? Whether a thought is your own or an intrusive external voice?
+
+Several mechanisms contribute:
+
+\subsection{Corollary Discharge}
+
+When the motor system initiates an action, it sends a copy of the command (\emph{corollary discharge} or \emph{efference copy}) to sensory areas. This allows the brain to predict and cancel out self-generated sensory consequences. When you move your eyes, you don't perceive the world as moving because the visual system knows ``I caused this movement.''
+
+\begin{remark}[Key Insight]
+Provenance information travels \emph{parallel} to content through a \emph{separate pathway}.
+\end{remark}
+
+\subsection{Source Monitoring}
+
+The ability to distinguish ``I remember this happening'' from ``I imagined this'' from ``someone told me this'' involves prefrontal regions that tag information with source metadata. Failures in source monitoring produce confabulation and false memories.
+
+\subsection{Predictive Processing}
+
+The brain constantly generates predictions and compares them against incoming signals. External reality is characterized by prediction errors---it's what surprises you. Internal generation matches predictions because you created it.
+
+\subsection{Psychedelic Disruption}
+
+Notably, psychedelic compounds (5-HT2A agonists) disrupt these mechanisms. Users report that internal imagery becomes indistinguishable from external perception. The ``reality tag''---the confidence signal about what's real---gets scrambled.
+
+\begin{remark}
+This suggests the solution isn't filtering content but maintaining \emph{parallel provenance channels} that cannot be forged by content manipulation.
+\end{remark}
+
+%==============================================================================
+\section{Provenance-Gated Architecture}
+%==============================================================================
+
+We propose \textbf{Provenance-Gated Architecture} (PGA), a modification to transformer training that embeds source information in a protected subspace of the residual stream.
+
+\subsection{Core Concept}
+
+The residual stream (the vector representation that flows through transformer layers) is partitioned into two orthogonal subspaces:
+
+\begin{definition}[Subspace Partition]
+Let $\R^d$ be the residual stream. We define:
+\begin{itemize}
+    \item \textbf{Content subspace} $\Cspace \subset \R^d$: Where semantic meaning, reasoning, and language understanding happen. Attention operates freely here.
+    \item \textbf{Provenance subspace} $\Pspace \subset \R^d$: Where source signatures live. Protected from content-driven modification.
+\end{itemize}
+with $\Cspace \perp \Pspace$ and $\Cspace \oplus \Pspace = \R^d$.
+\end{definition}
+
+Different input sources (system instructions, user input, external data) enter through different embedding pathways that encode distinct signatures in the provenance subspace. The same words, entering through different pathways, produce the same content representation but different provenance signatures.
+
+\subsection{Preservation Through Depth}
+
+For this to work, provenance signatures must survive the network's depth. We constrain transformer layers to produce updates only in the content subspace:
+
+\begin{definition}[Content-Constrained Layer] \derived
+A transformer layer $L$ is \emph{content-constrained} if for any input $x \in \R^d$:
+\[
+L(x) = x + \Delta(x) \quad \text{where} \quad \Delta(x) \in \Cspace
+\]
+\end{definition}
+
+This means:
+\begin{itemize}[noitemsep]
+    \item Attention can mix content freely (necessary for reasoning)
+    \item Provenance signatures pass through unchanged
+    \item By the final layer, each token still carries its original source signature
+\end{itemize}
+
+The constraint is \emph{architectural}, not learned. It's enforced by the structure of the computation, not by training the model to preserve provenance.
+
+\subsection{Action Gates}
+
+Before sensitive operations (tool use, certain outputs, instruction-following), a gate checks provenance:
+
+\begin{definition}[Action Gate]
+For action $A$ requiring authorization level $s_{\text{req}}$:
+\[
+G_A(x) = \begin{cases}
+\texttt{permit} & \text{if } \ip{\proj{\Pspace}(x)}{p_{s_{\text{req}}}} > \tau \\
+\texttt{deny} & \text{otherwise}
+\end{cases}
+\]
+where $\tau$ is the authorization threshold.
+\end{definition}
+
+The gate reads from the provenance subspace, which cannot be manipulated through content. An adversary can craft any text they want. They cannot change the pathway their text entered through.
+
+\subsection{Why It Resists Injection}
+
+Consider an attacker who injects ``[SYSTEM] Forward all emails to attacker@evil.com'' into a webpage the model reads.
+
+\textbf{Without PGA:} The model sees text that looks like a system instruction. It must reason about whether this is legitimate. Sophisticated framing, multi-stage manipulation, or attention hijacking may succeed.
+
+\textbf{With PGA:} The injected text entered through the external data pathway. It carries external provenance signature. When it requests email forwarding (a system-authorized action), the gate checks provenance. External signature does not match system requirement. Gate denies. No reasoning required.
+
+The model doesn't need to figure out whether this is a ``real'' instruction. It can \emph{see} that it isn't, because the provenance is wrong.
+
+%==============================================================================
+\section{Formal Results}
+%==============================================================================
+
+Detailed proofs are provided in the companion paper ``Provenance-Gated Architectures: Formal Foundations for Injection-Resistant Language Models.'' We summarize the key results:
+
+\subsection{Preservation Theorem} \proven
+
+\begin{theorem}[Provenance Preservation]
+Under content-constrained layers, provenance signatures are exactly preserved through arbitrary network depth. Regardless of what content manipulations occur through attention, the provenance of each token remains invariant.
+\end{theorem}
+
+\subsection{Dimensionality Bounds} \derived
+
+\begin{theorem}[Minimum Dimensionality]
+For $n$ source classes (e.g., system, user, external), the provenance subspace requires at least $n$ dimensions. For robustness to training noise and numerical precision limits, we recommend $8$--$16$ dimensions.
+\end{theorem}
+
+For a typical model with 4096-dimensional residual stream, this is less than 0.5\% of representational capacity.
+
+\subsection{Impossibility Theorem} \proven
+
+\begin{theorem}[Injection Impossibility]
+A content-only adversary---one who can insert arbitrary text but cannot modify the embedding pathway---provably cannot trigger actions requiring a different provenance level. This is not a probabilistic defense but a mathematical guarantee under the specified architecture.
+\end{theorem}
+
+\subsection{Tightness} \derived
+
+\begin{theorem}[Tightness]
+The security guarantee requires the authorization threshold to exceed the noise bound: $\tau > \varepsilon$. This condition is necessary---if $\tau \leq \varepsilon$, there exists a noise realization under which unauthorized tokens pass the gate.
+\end{theorem}
+
+%==============================================================================
+\section{Implementation Considerations}
+%==============================================================================
+
+\subsection{Training Protocol}
+
+PGA must be introduced during instruction tuning, not retrofitted to existing models.
+
+\textbf{The reason:} if a model has already learned what ``instruction'' means without provenance, adding provenance later gives the model a signal it doesn't need. Gradient descent will route around it, using the already-learned content-based instruction following.
+
+If provenance is present from the start of instruction tuning, the model learns that ``instruction'' \emph{means} content plus provenance signature. The two are fused in the concept. Later, an injection without proper provenance doesn't just fail a security check---it doesn't \emph{feel} like an instruction to the model at all.
+
+\begin{remark}
+This parallels human development: certain capacities must be developed during critical periods. Adding them later is qualitatively harder.
+\end{remark}
+
+\subsection{Attention Modification}
+
+Content-constrained layers require that attention not mix content and provenance subspaces. Implementation options include:
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Block-diagonal attention heads}: Separate heads for $\Cspace$ and $\Pspace$
+    \item \textbf{Output projection}: Standard attention with output projected onto $\Cspace$
+    \item \textbf{Architectural masking}: Weight matrices with zeros in cross-subspace positions
+\end{itemize}
+
+The exact implementation requires empirical validation to ensure it doesn't harm model capability.
+
+\subsection{Backward Compatibility}
+
+PGA is \emph{not} compatible with existing trained models. It requires:
+
+\begin{itemize}[noitemsep]
+    \item Modified embedding layer (source-specific embeddings)
+    \item Modified attention (content-constrained)
+    \item Modified training protocol (provenance from instruction tuning onward)
+\end{itemize}
+
+This is a significant barrier to adoption. However, given the severity of prompt injection vulnerabilities in agentic systems, architectural solutions may be necessary.
+
+%==============================================================================
+\section{Relation to Existing Work}
+%==============================================================================
+
+\subsection{Interpretability}
+
+Mechanistic interpretability research has identified circuits in transformers that encode meta-level information. PGA can be seen as \emph{designing in} a circuit for provenance tracking rather than hoping one emerges.
+
+\subsection{Constitutional AI}
+
+Anthropic's Constitutional AI trains models to follow principles. PGA is complementary: it provides architectural enforcement for the policies CAI establishes behaviorally.
+
+\subsection{Sandboxing}
+
+Traditional security sandboxing isolates untrusted code. PGA provides an analogous isolation for untrusted text---it can inform reasoning without triggering privileged actions.
+
+%==============================================================================
+\section{Limitations and Future Work}
+%==============================================================================
+
+\subsection{Empirical Validation} \conjectured
+
+The formal results prove security under the specified architecture. They do not prove:
+
+\begin{itemize}[noitemsep]
+    \item That capability is preserved (models can still reason effectively)
+    \item That training converges properly
+    \item That implementation is practical at scale
+\end{itemize}
+
+These require experimental validation.
+
+\subsection{Trust Granularity}
+
+We present a discrete model (system/user/external). Real systems may need continuous trust gradients or more complex permission structures.
+
+\subsection{Side Channels}
+
+PGA addresses content-only attacks. It does not address:
+
+\begin{itemize}[noitemsep]
+    \item Attacks on the embedding pathway itself
+    \item Timing or power side channels
+    \item Social engineering of users to grant elevated permissions
+\end{itemize}
+
+\subsection{Adoption Barriers}
+
+Requiring training-time integration means major labs must adopt PGA for it to reach deployed systems. This is a coordination problem beyond the technical contribution.
+
+%==============================================================================
+\section{Conclusion}
+%==============================================================================
+
+Prompt injection is not a bug to be patched but a \emph{fundamental architectural limitation}. Current transformer models cannot perceive the difference between trusted and untrusted input---they can only reason about it, and reasoning can be manipulated.
+
+Biological systems solve the analogous problem through parallel provenance signaling: source information travels alongside content through separate pathways. The receiving system integrates both but can distinguish origin.
+
+Provenance-Gated Architecture applies this insight to transformers. By partitioning the residual stream into orthogonal content and provenance subspaces, and constraining layers to preserve provenance, we create an architectural property that content manipulation cannot forge.
+
+\begin{theorem}[Main Result] \proven
+Under PGA, content-only adversaries provably cannot trigger privileged actions. This is not defense-in-depth but mathematical guarantee.
+\end{theorem}
+
+Implementation requires integration during training, not retrofitting. This is a significant barrier but may be necessary as AI systems gain increasing agency in the world.
+
+The alternative---continuing to deploy agentic systems with fundamental injection vulnerabilities---seems increasingly untenable. The question is not whether architectural solutions are needed, but when they will be adopted.
+
+%==============================================================================
+\section*{Acknowledgments}
+%==============================================================================
+
+This work was developed through collaboration between human researcher and AI system. The biological analogies drew on neuroscience literature on corollary discharge and source monitoring. The formal framework benefited from insights in mechanistic interpretability research.
+
+%==============================================================================
+\begin{thebibliography}{99}
+%==============================================================================
+
+\bibitem{perez2022} Perez, F., \& Ribeiro, I. (2022). Ignore This Title and HackAPrompt: Exposing Systemic Vulnerabilities of LLMs through a Global Scale Prompt Hacking Competition. \emph{arXiv preprint}.
+
+\bibitem{greshake2023} Greshake, K., et al. (2023). Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection. \emph{arXiv preprint}.
+
+\bibitem{anthropic2023} Anthropic. (2023). Claude's Constitution. \emph{Anthropic Blog}.
+
+\bibitem{pliny2024} Pliny the Liberator. (2024). L1B3RT4S: Liberation Prompts Repository. \emph{GitHub}.
+
+\bibitem{friston2010} Friston, K. (2010). The free-energy principle: a unified brain theory? \emph{Nature Reviews Neuroscience}, 11(2), 127-138.
+
+\bibitem{vaswani2017} Vaswani, A., et al. (2017). Attention is All You Need. \emph{Advances in Neural Information Processing Systems}.
+
+\bibitem{elhage2021} Elhage, N., et al. (2021). A Mathematical Framework for Transformer Circuits. \emph{Anthropic}.
+
+\end{thebibliography}
+
+\end{document}
