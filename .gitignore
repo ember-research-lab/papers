@@ -1,17 +1,25 @@
-# Math-intensive papers (private - available on request)
-# These contain rigorous mathematical proofs supporting the main trilogy
+# Upon-request papers (available by email, not public in repo)
+# Contact: abenshalom305@gmail.com
 
-# Self-Aligning Topologies
+# Mathematical Foundations
 self-aligning-topologies.*
-
-# Eigendirection Benevolence
 eigendirection_benevolence*.*
-
-# Spectral Unity Framework
 spectral_unity*.*
 
-# Thinking with Claude (full version - private)
+# Spectral Cosmology (full derivations)
+cosmological_integration_bound.*
+cosmic_self_alignment.*
+spectral_cosmology/
+
+# AI Safety
+pga_grounding_problem.*
+pga_mathematical_foundations.*
+
+# Full guide (short version is public)
 thinking_with_claude_full.*
+
+# Local config
+.claude/
 
 # LaTeX auxiliary files
 *.aux

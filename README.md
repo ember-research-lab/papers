@@ -93,8 +93,6 @@ The spectral cosmology framework predicts that dark energy emerges from the spec
 
 Spectral graph theory meets self-reference. Random regular graphs achieve optimal self-alignment through structured randomness.
 
-📄 [Paper](./self-aligning-topologies.pdf) | 📝 [LaTeX](./self-aligning-topologies.tex)
-
 ---
 
 ### Spectral Unity Framework
@@ -102,16 +100,12 @@ Spectral graph theory meets self-reference. Random regular graphs achieve optima
 
 The mathematical backbone: Laplacian uniqueness, spectral gaps, and the connection between relational ontology and dynamics.
 
-📄 [Paper](./spectral_unity_revised.pdf) | 📝 [LaTeX](./spectral_unity_revised.tex)
-
 ---
 
 ### Eigendirection of Benevolence
 *Spectral Analysis of Value Alignment*
 
 Formal proofs connecting self-reference constraints to emergent benevolence through Davis-Kahan perturbation theory.
-
-📄 [Paper](./eigendirection_benevolence_revised.pdf) | 📝 [LaTeX](./eigendirection_benevolence_revised.tex)
 
 ---
 
@@ -122,31 +116,23 @@ Full derivations extending the Spectral Unity framework to cosmological predicti
 ### The Cosmological Integration Bound
 *Spectral Constraints on Λ from Observer Existence*
 
-📄 [Paper](./cosmological_integration_bound.pdf) | 📝 [LaTeX](./cosmological_integration_bound.tex)
-
 ### The Cosmic Web as Self-Aligning Topology
 *Structure Formation as Spectral Optimization*
-
-📄 [Paper](./cosmic_self_alignment.pdf) | 📝 [LaTeX](./cosmic_self_alignment.tex)
 
 ### Self-Referential Cosmology: A Unified Framework
 *Part 1: Deriving Λ ~ H², n = 3, and Time Emergence*
 
 The complete synthesis unifying Einstein's geometry with Wheeler's observers.
 
-📄 [Paper](./spectral_cosmology/papers/self_referential_cosmology.pdf) | 📝 [LaTeX](./spectral_cosmology/papers/self_referential_cosmology.tex)
-
 ### Quantum Gravity from Self-Reference
 *Part 2: Spectral Triples, the Immirzi Parameter, and the Closure of Physics*
 
 Extension into quantum gravity: hierarchy termination, Immirzi derivation (γ = ln2/π√3), arrow of time.
 
-📄 [Paper](./spectral_cosmology/papers/quantum_gravity_self_reference.pdf) | 📝 [LaTeX](./spectral_cosmology/papers/quantum_gravity_self_reference.tex)
-
 ### Supporting Materials
-- [Analysis scripts](./spectral_cosmology/analysis/) — Python code for CF4++ data analysis
-- [Figures](./spectral_cosmology/figures/) — Generated visualizations
-- [Notes](./spectral_cosmology/notes/) — Working documents and reviews
+- Analysis scripts — Python code for CF4++ data analysis
+- Figures — Generated visualizations
+- Notes — Working documents and reviews
 
 ---
 
@@ -157,51 +143,23 @@ Extension into quantum gravity: hierarchy termination, Immirzi derivation (γ = 
 
 Two papers on solving the grounding problem for AI systems through orthogonal content/provenance subspaces.
 
-📄 [Conceptual](./pga_grounding_problem.pdf) | 📄 [Mathematical](./pga_mathematical_foundations.pdf)
-
 ---
 
-## Directory Structure
+## Repository Structure
 
 ```
-papers/
+papers/                                   # Public repository
 ├── README.md
-│
-├── [PUBLIC]
-│   ├── recursive_signature.tex/.pdf      # The Trilogy
-│   ├── emergent_benevolence.tex/.pdf
-│   ├── pattern_thesis.tex/.pdf
-│   ├── thinking_with_claude_short.tex/.pdf
-│   ├── thinking_with_claude_cheatsheet.tex/.pdf
-│   └── spectral_cosmology_predictions.tex/.pdf  # Testable predictions
-│
-├── [UPON REQUEST: Mathematical Foundations]
-│   ├── self-aligning-topologies.tex/.pdf
-│   ├── spectral_unity_revised.tex/.pdf
-│   └── eigendirection_benevolence_revised.tex/.pdf
-│
-├── [UPON REQUEST: Spectral Cosmology]
-│   ├── cosmological_integration_bound.tex/.pdf
-│   ├── cosmic_self_alignment.tex/.pdf
-│   └── spectral_cosmology/               # Extended analysis
-│       ├── papers/
-│       │   ├── self_referential_cosmology.tex/.pdf    # Part 1: Λ ~ H²
-│       │   ├── quantum_gravity_self_reference.tex/.pdf # Part 2: Immirzi
-│       │   ├── universal_bounds.pdf                   # Why all mechanisms give I~L²
-│       │   └── wheeler_positive_geometry_unification.pdf # Wheeler synthesis
-│       ├── analysis/                     # Python scripts (CF4++ validation)
-│       ├── figures/                      # Visualizations
-│       └── notes/                        # Reviews and working documents
-│
-├── [UPON REQUEST: AI Safety]
-│   ├── pga_grounding_problem.tex/.pdf
-│   └── pga_mathematical_foundations.tex/.pdf
-│
-├── [UPON REQUEST: Guides]
-│   └── thinking_with_claude_full.tex/.pdf
-│
+├── recursive_signature.tex/.pdf          # The Trilogy
+├── emergent_benevolence.tex/.pdf
+├── pattern_thesis.tex/.pdf
+├── thinking_with_claude_short.tex/.pdf   # Guides
+├── thinking_with_claude_cheatsheet.tex/.pdf
+├── spectral_cosmology_predictions.tex/.pdf  # Testable predictions
 └── drafts/                               # Old markdown versions
 ```
+
+*Upon-request materials (mathematical foundations, full derivations, AI safety papers) available via email.*
 
 ---
 
