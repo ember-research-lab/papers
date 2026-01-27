@@ -6,10 +6,14 @@ self-aligning-topologies.*
 eigendirection_benevolence*.*
 spectral_unity*.*
 
-# Spectral Cosmology (full derivations)
+# Spectral Cosmology (full derivations - upon request)
 cosmological_integration_bound.*
 cosmic_self_alignment.*
 spectral_cosmology/
+
+# Simulation figures (from spectral cosmology)
+figures/simulation_*.png
+figures/geometric_factor_*.png
 
 # AI Safety
 pga_grounding_problem.*
