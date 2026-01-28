@@ -136,6 +136,54 @@ Extension into quantum gravity: hierarchy termination, Immirzi derivation (γ = 
 
 ---
 
+## Quantum Error Correction
+
+### Spectral Codes
+*Quantum Error Correction from Graph Laplacian Eigenstructure*
+
+QEC codes where codewords are eigenspaces of graph Laplacians. Distance bound: d ≥ ⌈girth(G)/2⌉. Single-vertex errors always detectable for interior eigenvalues.
+
+---
+
+### Coherent Spectral Codes
+*Dual Protection Through Eigenspace Stability*
+
+Extends spectral codes with passive decoherence resistance. Random regular graphs (d=3-4) achieve ~0.90 eigenspace stability vs ~0.33 for complete graphs. Predicts ~6.7× coherence enhancement.
+
+---
+
+## Quantum Architecture
+
+### Self-Aligning Qubits
+*Room-Temperature Quantum Coherence Through Topology*
+
+Theory of how optimal graph topology enables room-temperature quantum coherence. Random regular graphs (d=3-4) achieve >0.98 stability, >95% coherence at 300K with 200-300 meV gaps.
+
+---
+
+### SAQ-512 Architecture
+*512-Qubit Self-Aligning Quantum Computer*
+
+Implementation blueprint for room-temperature quantum computer. Physical error rates 0.033% (30× below threshold). Includes leakage detection protocol and surface code integration.
+
+---
+
+## Foundational Theory
+
+### Theory of Everything from Self-Reference
+*Deriving Physics from L = ∇†∇*
+
+Complete derivation of fundamental physics from the self-referential Laplacian. Derives Cabibbo parameter λ ≈ 0.2240 (0.1% match), CP phase δ = π/φ², resolves strong CP problem.
+
+---
+
+### Spectral Complexity Theory
+*SE = BPP: The Universal Laplacian and Computational Structure*
+
+Proves classical efficiency equals low spectral entropy. The Universal Laplacian on CP^(N-1) connects computational complexity to cosmology through Bakry-Émery geometry.
+
+---
+
 ## AI Safety
 
 ### Provenance-Gated Architecture
