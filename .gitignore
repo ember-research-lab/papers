@@ -15,6 +15,18 @@ spectral_cosmology/
 figures/simulation_*.png
 figures/geometric_factor_*.png
 
+# Quantum Error Correction
+spectral_codes.*
+coherent_spectral_codes.*
+
+# Quantum Architecture
+self_aligning_qubits.*
+SAQ_512_v4_1_corrected.*
+
+# Foundational Theory
+theory_of_everything.*
+spectral_complexity_unified.*
+
 # AI Safety
 pga_grounding_problem.*
 pga_mathematical_foundations.*
