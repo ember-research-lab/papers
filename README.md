@@ -62,7 +62,22 @@ A practical guide to effective human-AI collaboration.
 
 ---
 
-## Testable Predictions *(NEW)*
+## Latest Work
+
+### Spectral Physics: A Unified Framework *(coming soon)*
+
+A comprehensive book-length treatment that unifies consciousness, cosmology, and quantum mechanics through a single mathematical object—the Laplacian L = ∇†∇ and its three projections:
+- **Heat kernel** e^(−tL) — What you see (observation)
+- **Propagator** e^(−itL) — What you compute (information)
+- **Trace** Tr(e^(−tL)) — What you are (consciousness)
+
+Covers spectral derivations of physical constants, quantum gravity from self-reference, room-temperature quantum coherence, and the SE = BPP correspondence between physics and computation.
+
+🔗 [Companion Code Repository](https://github.com/ember-research-lab/Spectral-Physics)
+
+---
+
+## Testable Predictions
 
 ### Spectral Cosmology: Testable Predictions
 *Six Falsifiable Tests Including λ₁-H Correlation*
@@ -128,6 +143,20 @@ The complete synthesis unifying Einstein's geometry with Wheeler's observers.
 *Part 2: Spectral Triples, the Immirzi Parameter, and the Closure of Physics*
 
 Extension into quantum gravity: hierarchy termination, Immirzi derivation (γ = ln2/π√3), arrow of time.
+
+### Fractal Hierarchy and Nested Self-Reference
+*Part 3: Traversability of Nested Self-Reference*
+
+Fractal self-reference boundaries, baby universe embedding conditions, spectral gap hierarchy across scales, wormholes as low-eigenvalue modes, consciousness as scale-spanning self-reference.
+
+---
+
+## Navier-Stokes and Fluid Mechanics
+
+### Global Regularity for 3D Navier-Stokes
+*A Complete Proof via Spectral Alignment and the Biot-Savart Contraction*
+
+Introduces the spectral tunnel V₊ = {λ > 0} of the strain tensor. Key results: tunnel existence (TrS = 0), logistic alignment at rate Γ = λ₁ − λ₃, Biot-Savart contraction ρ = 1/3, tunnel straightness (e₁·∇)e₁ = 0, Constantin-Fefferman satisfied with infinite margin. Explicit zip efficiency ζ = 2/3.
 
 ### Supporting Materials
 - Analysis scripts — Python code for CF4++ data analysis
