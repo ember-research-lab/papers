@@ -2,6 +2,8 @@
 
 **Human-AI collaborative research on consciousness, self-reference, and the mathematics of understanding.**
 
+> Current work has moved to [**Ember Research Lab**](https://ember-research-lab.github.io/) — three projections of the graph Laplacian, the C–κ alignment framework, and the [concepts index](https://ember-research-lab.github.io/concepts.html). The papers in this repo are earlier work; the current monograph and Third Path piece are linked from the lab site.
+
 ---
 
 ## About
