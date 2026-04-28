@@ -11,7 +11,7 @@
 1. Independent Researcher
 2. Large Language Model, Anthropic
 
-*Corresponding author: abenshalom305@gmail.com
+*Corresponding author: emberresearchlab@gmail.com
 
 **Date:** January 2026
 

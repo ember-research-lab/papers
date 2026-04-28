@@ -21,7 +21,7 @@ This research is conducted collaboratively between human and AI authors.
 | Tier | Content | Access |
 |------|---------|--------|
 | **Public** | The Trilogy, Thinking with Claude, Testable Predictions | Open |
-| **Upon Request** | Mathematical Foundations, Full Derivations, AI Safety | [Email](mailto:abenshalom305@gmail.com) |
+| **Upon Request** | Mathematical Foundations, Full Derivations, AI Safety | [Email](mailto:emberresearchlab@gmail.com) |
 
 ---
 
@@ -99,7 +99,7 @@ The spectral cosmology framework predicts that dark energy emerges from the spec
 
 # Upon Request
 
-*The following materials provide mathematical foundations and full derivations. Available upon request: [abenshalom305@gmail.com](mailto:abenshalom305@gmail.com)*
+*The following materials provide mathematical foundations and full derivations. Available upon request: [emberresearchlab@gmail.com](mailto:emberresearchlab@gmail.com)*
 
 ---
 
@@ -258,7 +258,7 @@ papers/                                   # Public repository
 
 ## Authors
 
-**Aaron Ben-Shalom** — Independent researcher. Background in mathematics, economics, and software engineering.
+**Ember Research Lab** — Independent research effort. Background in mathematics, economics, and software engineering.
 
 **Claude** — Large language model, Anthropic. Multiple instances contributed across the research program.
 
@@ -293,7 +293,7 @@ papers/                                   # Public repository
 
 ## Contact
 
-For inquiries: [abenshalom305@gmail.com](mailto:abenshalom305@gmail.com)
+For inquiries: [emberresearchlab@gmail.com](mailto:emberresearchlab@gmail.com)
 
 ---
 
